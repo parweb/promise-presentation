@@ -1,23 +1,178 @@
-import { Head } from 'mdx-deck'
-
 export { default as theme } from './theme'
 
-<Head>
-  <title>Presentation Title</title>
-</Head>
+import { Appear, Image } from 'mdx-deck'
 
-# Hello
+import Simple from './demos/simple'
+import SimpleAsync from './demos/simple-async'
 
 ---
 
-## Edit this file
+# ♫
+## promesses
+### promesses
+#### promesses
+##### toujours
+###### des promesses
 
-To create your presentation
 
-```notes
-- Create speaker notes in fenced code blocks
+---
+
+<div>
+  <p>Introduction au "promise"</p>
+  <Appear>
+    <p>Hello world</p>
+    <p>Anti-patterns</p>
+    <p>Refacto</p>
+    <p>Questions ?</p>
+  </Appear>
+</div>
+
+---
+
+Une "promise", une "promesse" (promettre)
+
+---
+
+> C'est une donnée, pas nécessairement connu à l'avance
+
+---
+
+#### Une valeur à 3 états (states)
+<div>
+  <Appear>
+    <p>En cours (Pending)</p>
+    <p>Terminé (Fullfill)</p>
+    <p>Rejeté (Reject)</p>
+  </Appear>
+</div>
+
+---
+
+<Image
+  src='demos/schema-promise.png'
+  size='fit'
+/>
+
+---
+
+#### Ce qui permet
+
+<div>
+  <Appear>
+    <p>Exécuter une tâche</p>
+    <p>Continuer sans attendre</p>
+    <p>Être avertie du résultat de la tâche</p>
+  </Appear>
+</div>
+
+---
+
+# Pourquoi ?
+
+---
+
+# Synchrone
+
+<Simple />
+
+---
+
+# Asynchrone
+
+<SimpleAsync />
+
+---
+
+```jsx
+function database_products_all() {
+  return [...plus_de_1000000_produits]
+} 
+
+var products = database_products_all()
+
+// on attends plus de 5 secondes
+
+console.log(products)
+// on affiche le résultat
 ```
 
 ---
 
-<https://github.com/jxnblk/mdx-deck>
+# le développeur
+
+<div>¯\_(ツ)_/¯</div>
+
+---
+
+je te promet pas la lune mais ...
+
+---
+
+# Comment ça marche !
+
+---
+
+```jsx
+var products = new Promise(function);
+```
+
+---
+
+```jsx
+var products = new Promise(function(resolv, reject) {});
+```
+
+---
+
+```jsx
+var products = new Promise(function(resolv, reject) {
+  // on appel
+  resolv('some data');
+
+  // optionel mais fortement recommandé
+  reject('error message');
+});
+```
+
+---
+
+```jsx
+// on déclare que la valeur est une "promise"
+var products = new Promise(function(resolv, reject) {
+
+  // on appel la fonction qui prend beaucoup de temps
+  var fetchProducts = database_products_all();
+
+  // si le résultat est correct on informe
+  if (fetchProducts)
+    resolv(fetchProducts);
+
+  // sinon on retourne une erreur
+  else
+    reject('Base de donnée indisponible')
+})
+```
+
+---
+
+<div>¯\_(ツ)_/¯</div>
+
+---
+
+# ce qu'il faut retenir
+
+---
+
+```jsx
+var products = new Promise(function(resolv, reject) {
+  // on appel
+  resolv('some data');
+
+  // optionel mais fortement recommandé
+  reject('error message');
+});
+```
+
+---
+
+This is the first file

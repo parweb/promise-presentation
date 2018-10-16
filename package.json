@@ -1,7 +1,11 @@
 {
+  "name": "my-presentation-name",
   "private": true,
   "version": "1.0.0",
   "description": "Deck created with mdx-deck",
+  "keywords": [],
+  "author": "parweb",
+  "license": "MIT",
   "scripts": {
     "start": "mdx-deck deck.mdx",
     "build": "mdx-deck build deck.mdx",
@@ -9,11 +13,8 @@
     "image": "mdx-deck screenshot deck.mdx",
     "help": "mdx-deck"
   },
-  "keywords": [],
-  "author": "Brent Jackson",
-  "license": "MIT",
   "devDependencies": {
     "mdx-deck": "^1.6.7"
   },
-  "name": "my-presentation-name"
+  "dependencies": {}
 }
