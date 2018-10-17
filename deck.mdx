@@ -33,7 +33,7 @@ Une "promise", une "promesse" (promettre)
 
 ---
 
-> C'est une donnée, pas nécessairement connu à l'avance
+> C'est une donnée, pas nécessairement connue à l'avance
 
 ---
 
@@ -126,7 +126,7 @@ var products = new Promise(function(resolv, reject) {});
 
 ```jsx
 var products = new Promise(function(resolv, reject) {
-  // on appel
+  // on appelle
   resolv('some data');
 
   // optionel mais fortement recommandé
@@ -140,7 +140,7 @@ var products = new Promise(function(resolv, reject) {
 // on déclare que la valeur est une "promise"
 var products = new Promise(function(resolv, reject) {
 
-  // on appel la fonction qui prend beaucoup de temps
+  // on appelle la fonction qui prend beaucoup de temps
   var fetchProducts = database_products_all();
 
   // si le résultat est correct on informe
@@ -165,7 +165,7 @@ var products = new Promise(function(resolv, reject) {
 
 ```jsx
 var products = new Promise(function(resolv, reject) {
-  // on appel
+  // on appelle
   resolv('some data');
 
   // optionel mais fortement recommandé
@@ -175,4 +175,248 @@ var products = new Promise(function(resolv, reject) {
 
 ---
 
-This is the first file
+# Démo
+#### (hello world)
+
+---
+
+# Les erreurs à éviter
+#### (Anti-patterns)
+
+---
+
+# Imbrication
+
+---
+
+```jsx
+loadSomething().then(function(something) {
+  loadAnotherthing().then(function(another) {
+    DoSomethingOnThem(something, another);
+  });
+});
+```
+
+---
+
+# Mais plutôt
+
+```jsx
+Promise.all([ loadSomething(), loadAnotherthing() ])
+  .then(function(result) {
+    DoSomethingOnThem(result[0], result[1]);
+  });
+```
+
+---
+
+# Dépendances
+
+---
+
+```jsx
+function anAsyncCall() {
+  var promise = doSomethingAsync();
+  promise.then(function(result) {
+    somethingComplicated(result);
+  });
+  
+  return promise;
+}
+```
+
+---
+
+# ça ma l'air bien, nan ?
+
+---
+
+# presque
+
+<div>
+  <Appear>
+    <p>Les erreurs ne seront pas propagées</p>
+  </Appear>
+</div>
+
+---
+
+# Meilleure proposition
+
+```jsx
+function anAsyncCall() {
+    var promise = doSomethingAsync();
+    return promise.then(function() {
+        somethingComplicated()
+    });
+
+    // return promise;
+}
+```
+
+---
+
+# Je sais c'est subtile
+<div>¯\_(ツ)_/¯</div>
+
+---
+
+Toujour retourner le résultat du dernier then()
+<div>¯\_(ツ)_/¯</div>
+
+---
+
+# Less is more
+
+---
+
+```jsx
+function anAsyncCall() {
+  var promise = doSomethingAsync();
+  return promise.then(function(result) {
+    const keepIt = somethingComplicated(result);
+    const wellWillSee = goForIt(keepIt);
+    const x = a(wellWillSee);
+    const y = b(x);
+    const z = c(y);
+
+    return z;
+  });
+}
+```
+
+---
+
+```jsx
+function anAsyncCall() {
+  var promise = doSomethingAsync();
+
+  return promise
+    .then(function(result) {
+      return somethingComplicated(result);
+    })
+    .then(function(keepIt) {
+      return goForIt(keepIt);
+    })
+    .then(function(wellWillSee) {
+      return a(wellWillSee);
+    })
+    .then(function(x) {
+      return b(x);
+    })
+    .then(function(y) {
+      return c(y);
+    })
+  });
+}
+```
+
+---
+
+# Pour info
+```jsx
+function anAsyncCall() {
+  return doSomethingAsync()
+    .then(somethingComplicated)
+    .then(goForIt)
+    .then(a)
+    .then(b)
+    .then(c)
+  });
+}
+```
+
+---
+
+# refacto time
+
+---
+
+async / await
+
+---
+
+```jsx
+function sleep(time) {
+  return new Promise(function(resolv, reject) {
+    setTimeout(resolv, time);
+  });
+}
+
+console.log('before');
+
+sleep(3000).then(function() {
+  console.log('waited enought !');
+});
+
+console.log('after');
+```
+
+---
+
+```jsx
+async function sleep(time) {
+  return new Promise(function(resolv, reject) {
+    setTimeout(resolv, time);
+  });
+}
+
+await sleep(3000);
+console.log('waited enought !');
+```
+
+---
+
+```jsx
+const sleep = time => new Promise(
+  resolv => setTimeout(resolv, time)
+);
+
+(async () => {
+  await sleep(3000);
+  console.log('waited enought !');
+})();
+```
+
+---
+
+# async
+
+```jsx
+function asyncFunction () {
+  return new Promise(function(resolv, reject){
+    return resolv("une valeur")
+  });
+}
+
+async function asyncFunction () {
+  return "une valeur";
+}
+
+const asyncFunction = async () => "une valeur"
+```
+
+---
+
+# await
+
+```jsx
+sleep(3000).then(function() {
+  console.log('waited enought !');
+});
+
+sleep(3000).then(() => {
+  console.log('waited enought !');
+});
+
+await sleep(3000);
+console.log('waited enought !');
+```
+
+---
+
+# Démo
+
+---
+
+# Questions ?

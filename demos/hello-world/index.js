@@ -7,7 +7,7 @@ function sleep(time) {
 console.log('before');
 
 sleep(3000).then(function() {
-  console.log('wait enought !');
+  console.log('waited enought !');
 });
 
 console.log('after');
